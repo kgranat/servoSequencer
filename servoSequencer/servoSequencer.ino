@@ -34,15 +34,116 @@ const int NUM_SEQEUENCES = 11;
 
 int servoPins[NUM_SERVOS] = {6,11,5,10,3,9,12};
 
-int servoErrors[NUM_SERVOS] = {0,-200,-100,-100,-100,100,-100};
-int servoValues[NUM_SERVOS] = {900,2100,1300,1700,2100,900,1500};
+//int servoErrors[NUM_SERVOS] = {0,0,0,0,00,00,00};
+int servoErrors[NUM_SERVOS] = {27,-12,122,29,-100,62,30}; //drnk brd
+//int servoErrors[NUM_SERVOS] = {0,-200,-100,-100,-100,100,-100};
+//int servoValues[NUM_SERVOS] = {900,2100,1300,1700,2100,900,1500};
+int servoValues[NUM_SERVOS] = {700,2368,1060,1928,2127,870,1476};
 //int servoValuesIdeal[NUM_SERVOS] = {900,2100,1300,1700,2100,900,1500};
 
 
 int neoPixelOn = -1;
 int lastNeoPixelOn = -1;
-int sequencePositions[NUM_SEQEUENCES][NUM_SERVOS];
-int sequencesSpeeds[NUM_SEQEUENCES][NUM_SERVOS];
+//int sequencePositions[NUM_SEQEUENCES][NUM_SERVOS]  = {
+//
+//  //bad dxl
+////{672,2357,1393,1583,1719,1286,1539},
+////{673,2359,1393,1573,878,2070,1474},
+////{651,2400,1034,1960,1161,1801,1543},
+////{647,2400,1036,1960,1161,1801,944},
+////{647,2400,1252,1766,1163,1801,946},
+////{645,2396,1490,1565,1388,1564,918},
+////{649,2400,1492,1564,1388,1564,1467},
+////{753,2287,1161,1792,2132,895,1467},
+////{753,2280,1159,1792,2134,890,1467},
+////{753,2278,1161,1792,2134,888,1467},
+////{744,2276,1161,1792,2130,890,1467}
+//
+//
+//{666,2350,997,1968,2236,804,1474},
+//{666,2350,997,1968,2232,809,1200},
+//{1075,2398,1379,1722,2398,921,1200},
+//
+//{666,2350,997,1968,2236,804,1474},
+//{666,2350,997,1968,2232,809,1200},
+//{1075,2398,1379,1722,2398,921,1200},
+//
+//{666,2350,997,1968,2236,804,1474},
+//{666,2350,997,1968,2232,809,1200},
+//{1075,2398,1379,1722,2398,921,1200},
+//
+//{666,2350,997,1968,2236,804,1474},
+//{666,2350,997,1968,2232,809,1200},
+//
+////{0,0,0,0,0,0,0},
+////{0,0,0,0,0,0,0},
+////{0,0,0,0,0,0,0},
+////{0,0,0,0,0,0,0},
+////{0,0,0,0,0,0,0},
+////{0,0,0,0,0,0,0},
+////{0,0,0,0,0,0,0},
+////{0,0,0,0,0,0,0},
+////{0,0,0,0,0,0,0}
+//
+//  
+//};
+
+
+
+
+
+int sequencePositions[NUM_SEQEUENCES][NUM_SERVOS] =
+{
+{700,2368,1060,1928,2127,870,1476},
+{702,2368,1060,1914,2129,870,939},
+{758,2398,1096,2400,2292,885,937},
+{983,2333,1314,1771,2294,886,939},
+{981,2334,1310,1768,2290,885,2031},
+{600,2310,615,1768,2290,886,2031},
+{600,2308,1231,1768,1914,881,2031},
+{700,2368,1060,1928,2127,870,1476},
+{0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0},
+{0,0,0,0,0,0,0}
+
+};
+
+//turn
+int sequencePositionsBack[NUM_SEQEUENCES][NUM_SERVOS] ;
+
+//int sequencePositionsBack[NUM_SEQEUENCES][NUM_SERVOS] =
+//{
+//  
+//{700,2368,1060,1928,2127,870,1476},
+//{600,2308,1231,1768,1914,881,2031},
+//{600,2310,615,1768,2290,886,2031},
+//{981,2334,1310,1768,2290,885,2031},
+//{983,2333,1314,1771,2294,886,939},
+//{758,2398,1096,2400,2292,885,937},
+//{702,2368,1060,1914,2129,870,939},
+//
+//{700,2368,1060,1928,2127,870,1476},
+//{0,0,0,0,0,0,0},
+//{0,0,0,0,0,0,0},
+//{0,0,0,0,0,0,0}
+//
+//};
+
+
+
+
+
+int deltaTime = 250;
+
+int deltaTimeTurn = 1000;
+
+//int sequencesSpeeds[NUM_SEQEUENCES]  = {deltaTimeTurn, deltaTimeTurn , deltaTimeTurn, deltaTimeTurn, deltaTimeTurn , deltaTimeTurn, deltaTimeTurn, deltaTimeTurn,     deltaTimeTurn, deltaTimeTurn, deltaTimeTurn};
+
+//walk forward
+int sequencesSpeeds[NUM_SEQEUENCES]  = {deltaTime, (deltaTime + 1000)/2, deltaTime, deltaTime, deltaTime + 1000, deltaTime, deltaTime, deltaTime,     deltaTime, deltaTime, deltaTime/2};
+
+//walk back
+int sequencesSpeedsBack[NUM_SEQEUENCES]  = {deltaTime,  (deltaTime + 1000)/2 ,deltaTime,deltaTime,  (deltaTime + 1000) , deltaTime, deltaTime, (deltaTime + 1000)/2,    deltaTime, deltaTime, deltaTime};
 
 int pixelColor[12];
 
@@ -83,6 +184,8 @@ Serial.begin(9600);
     
   SetServo(1000);
 
+//  delay(5000);
+//  while(1);
   
 }
 
@@ -118,7 +221,26 @@ void loop() {
 
   if(digitalRead(4) == HIGH)
   {
+//    playSequence();
+//    Serial.println("1");
+//    playSequence();
+//    Serial.println("2");
+//    playSequence();
+//    Serial.println("3");
+//    playSequence();
+//    Serial.println("4");
+//    playSequence();
+//    Serial.println("5");
     playSequence();
+    Serial.println("1");
+    playSequence();
+    Serial.println("2");
+//    playSequenceBack();
+//    Serial.println("3");
+//    playSequenceBack();
+//    Serial.println("4");
+//    playSequenceBack();
+//    Serial.println("5");
 
     //readAnalogs();
    // reportValues();
@@ -134,10 +256,13 @@ void loop() {
   
 }
 
-void playSequence()
+
+
+void playSequenceBack()
 {
   Serial.println("PLAY");
-   for(int i = 0; i <NUM_SEQEUENCES ; i++)
+   //for(int i = 0; i <NUM_SEQEUENCES ; i++)
+   for(int i = 0; i < 3 ; i++)
     {
 
     pixels.setPixelColor(i + 2, Wheel(128));
@@ -146,6 +271,46 @@ void playSequence()
 
 
     
+     ServoGroupMove.start();
+       for(int j = 0; j < NUM_SERVOS; j++)
+      {
+        if(sequencePositionsBack[i][j] == 0)
+        {
+          Serial.println("ERROR");
+          return;
+            
+        }
+        
+        gerwalkServo[j].writeMicroseconds(sequencePositionsBack[i][j] + servoErrors[j]);
+      } 
+      int DeltaTime = 750;
+      ServoGroupMove.commit(sequencesSpeedsBack[i]);
+      delay(sequencesSpeedsBack[i]);
+      
+    pixels.setPixelColor(i + 2, Wheel(pixelColor[i + 2]));
+    pixels.show(); // This sends the updated pixel color to the hardware.
+
+   
+    }
+}
+
+
+
+
+void playSequence()
+{
+  Serial.println("PLAY");
+   //for(int i = 0; i <NUM_SEQEUENCES ; i++)
+   for(int i = 0; i <8 ; i++)
+    {
+
+    pixels.setPixelColor(i + 2, Wheel(128));
+    pixels.show(); // This sends the updated pixel color to the hardware.
+
+
+
+    
+     ServoGroupMove.start();
        for(int j = 0; j < NUM_SERVOS; j++)
       {
         if(sequencePositions[i][j] == 0)
@@ -154,12 +319,20 @@ void playSequence()
           return;
             
         }
+        else 
+        {
+          Serial.print(" PLAY");
+          Serial.print(j);
+          Serial.print(":");
+          Serial.print(sequencePositions[i][j] + servoErrors[j]);
+        }
         
         gerwalkServo[j].writeMicroseconds(sequencePositions[i][j] + servoErrors[j]);
       } 
-      int DeltaTime = 1000;
-      ServoGroupMove.commit(DeltaTime);
-      delay(DeltaTime);
+      Serial.println(" ");
+      int DeltaTime = 750;
+      ServoGroupMove.commit(sequencesSpeeds[i]);
+      delay(sequencesSpeeds[i]);
       
     pixels.setPixelColor(i + 2, Wheel(pixelColor[i + 2]));
     pixels.show(); // This sends the updated pixel color to the hardware.
